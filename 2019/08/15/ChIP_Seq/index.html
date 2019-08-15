@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="ChIP_Seq分析1. 序言12345678910111. 文章是 : Brookes, E. et al. Polycomb associates genome-wide with a specific RNA polymerase II variant, and regulates metabolic genes in ESCs. Cell Stem Cell 10, 157–170 (20">
+<meta name="keywords" content="Seq,ChIP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AChIP_Seq">
+<meta property="og:url" content="https://benbenmiao.github.io/2019/08/15/ChIP_Seq/index.html">
+<meta property="og:site_name" content="BioInfoTech">
+<meta property="og:description" content="ChIP_Seq分析1. 序言12345678910111. 文章是 : Brookes, E. et al. Polycomb associates genome-wide with a specific RNA polymerase II variant, and regulates metabolic genes in ESCs. Cell Stem Cell 10, 157–170 (20">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-07-17T02:08:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AChIP_Seq">
+<meta name="twitter:description" content="ChIP_Seq分析1. 序言12345678910111. 文章是 : Brookes, E. et al. Polycomb associates genome-wide with a specific RNA polymerase II variant, and regulates metabolic genes in ESCs. Cell Stem Cell 10, 157–170 (20">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="BioInfoTech" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://benbenmiao.github.io/2019/08/15/ChIP_Seq/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>AChIP_Seq | BioInfoTech</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/BenbenMiao/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta custom-logo">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">BioInfoTech</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">BenbenMiao</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">3</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">2</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">2</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>Schedule</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/sitemap.xml" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>Sitemap</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>Commonweal 404</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+    <div class="reading-progress-bar"></div>
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://benbenmiao.github.io/2019/08/15/ChIP_Seq/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="BenbenMiao">
+      <meta itemprop="description" content="A biology information technology blog.">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="BioInfoTech">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">AChIP_Seq
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-08-15 15:00:00" itemprop="dateCreated datePublished" datetime="2019-08-15T15:00:00+08:00">2019-08-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-17 10:08:24" itemprop="dateModified" datetime="2019-07-17T10:08:24+08:00">2019-07-17</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/15/ChIP_Seq/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/08/15/ChIP_Seq/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/08/15/ChIP_Seq/" class="leancloud_visitors" data-flag-title="AChIP_Seq">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views: </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">8.7k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">8 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ChIP-Seq分析"><a href="#ChIP-Seq分析" class="headerlink" title="ChIP_Seq分析"></a>ChIP_Seq分析</h1><h2 id="1-序言"><a href="#1-序言" class="headerlink" title="1. 序言"></a>1. 序言</h2><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> 文章是 : Brookes, E. et al. Polycomb associates genome-wide <span class="keyword">with</span> <span class="keyword">a</span> specific RNA polymerase II variant, <span class="keyword">and</span> regulates metabolic genes <span class="keyword">in</span> ESCs. Cell Stem Cell <span class="number">10</span>, <span class="number">157</span>–<span class="number">170</span> (<span class="number">2012</span>).</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> 数据是： Polycomb associates genome-wide <span class="keyword">with</span> <span class="keyword">a</span> specific RNA polymerase II variant, <span class="keyword">and</span> regulates metabolic genes <span class="keyword">in</span> ES cells (ChIP-Seq) <span class="keyword">https</span>://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE34518 总共是<span class="number">9</span>个样本,很多样本都分开在多个lane测序的，所以每个样本其实是有多个sra文件，多个fastq文件。</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span> SRA数据库可以下载 ：<span class="keyword">https</span>://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP009883 包括：Examination <span class="keyword">of</span> <span class="number">4</span> different RNAPII modifications (S5p, S7p, <span class="number">8</span>WG16, S2p), <span class="keyword">and</span> <span class="keyword">the</span> histone modifications H2Aub1 <span class="keyword">and</span> H3K36me3 <span class="keyword">in</span> mouse ES cells 这里需要警觉了，参考基因组应该是鼠。</span><br><span class="line"></span><br><span class="line"><span class="number">4.</span> 作者并没有给peaks文件，要想利用这个数据，只能自己重新处理，这就是为什么需要学会ChIP-seq数据处理的原因。不过作者给了bw文件，所以可以勉强跟自己的结果相互验证。</span><br><span class="line"></span><br><span class="line"><span class="number">5.</span> Illumina Genome Analyzer II 测序仪，有点过时了，测序策略是 se50</span><br><span class="line"></span><br><span class="line"><span class="number">6.</span> 文章找到数据的ID： <span class="keyword">https</span>://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP009883 把下面的内容保存到文件，命名为 srr.list 就可以使用prefetch这个函数来下载。</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="2-基本准备"><a href="#2-基本准备" class="headerlink" title="2.基本准备"></a>2.基本准备</h2><p>2.1 file: srr.list<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">SRR391032</span><br><span class="line">SRR391033</span><br><span class="line">SRR391034</span><br><span class="line">SRR391035</span><br><span class="line">SRR391036</span><br><span class="line">SRR391037</span><br><span class="line">SRR391038</span><br><span class="line">SRR391039</span><br><span class="line">SRR391040</span><br><span class="line">SRR391041</span><br><span class="line">SRR391042</span><br><span class="line">SRR391043</span><br><span class="line">SRR391044</span><br><span class="line">SRR391045</span><br><span class="line">SRR391046</span><br><span class="line">SRR391047</span><br><span class="line">SRR391048</span><br><span class="line">SRR391049</span><br><span class="line">SRR391050</span><br></pre></td></tr></table></figure></p>
+<p>2.2 安装必备软件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"></span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-latest-Linux-x86_64.sh </span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda</span><br><span class="line">conda config --set show_channel_urls yes</span><br><span class="line"></span><br><span class="line">conda  create -n chipseq  python=2 bwa</span><br><span class="line">conda info --envs</span><br><span class="line">source activate chipseq</span><br><span class="line"><span class="meta">#</span><span class="bash"> 可以用search先进行检索</span></span><br><span class="line">conda search trim_galore</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 保证所有的软件都是安装在 wes 这个环境下面</span></span></span><br><span class="line">conda install -y sra-tools  </span><br><span class="line">conda install -y trim-galore  samtools</span><br><span class="line">conda install -y deeptools homer  meme</span><br><span class="line">conda install -y macs2 bowtie bowtie2 </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># R</span></span></span><br></pre></td></tr></table></figure></p>
+<p>2.3 安装必备R包<br><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">options(<span class="string">"repos"</span> = c(CRAN=<span class="string">"https://mirrors.tuna.tsinghua.edu.cn/CRAN/"</span>))</span><br><span class="line">install.packages(<span class="string">"devtools"</span>,</span><br><span class="line">               repos=<span class="string">"https://mirrors.tuna.tsinghua.edu.cn/CRAN/"</span>)</span><br><span class="line"><span class="keyword">library</span>(devtools) </span><br><span class="line"><span class="keyword">source</span>(<span class="string">"https://bioconductor.org/biocLite.R"</span>) </span><br><span class="line">options(BioC_mirror=<span class="string">"https://mirrors.ustc.edu.cn/bioc/"</span>)  </span><br><span class="line">BiocInstaller::biocLite(c(<span class="string">'airway'</span>,<span class="string">'DESeq2'</span>,<span class="string">'edgeR'</span>,<span class="string">'limma'</span>))</span><br><span class="line">BiocInstaller::biocLite(c(<span class="string">'ChIPpeakAnno'</span>,<span class="string">'ChIPseeker'</span>))</span><br><span class="line">BiocInstaller::biocLite(<span class="string">'TxDb.Hsapiens.UCSC.hg19.knownGene'</span>,</span><br><span class="line">                        ask=<span class="literal">F</span>,suppressUpdates=<span class="literal">T</span>)</span><br><span class="line">BiocInstaller::biocLite(<span class="string">'TxDb.Hsapiens.UCSC.hg38.knownGene'</span>,</span><br><span class="line">                        ask=<span class="literal">F</span>,suppressUpdates=<span class="literal">T</span>)</span><br><span class="line">BiocInstaller::biocLite(<span class="string">'TxDb.Mmusculus.UCSC.mm10.knownGene'</span>,</span><br><span class="line">                        ask=<span class="literal">F</span>,suppressUpdates=<span class="literal">T</span>)</span><br><span class="line"><span class="comment"># 值得注意的是Y叔的包检查会有版本的问题，包括 ChIPseeker                              </span></span><br><span class="line"><span class="keyword">library</span>(TxDb.Hsapiens.UCSC.hg19.knownGene) </span><br><span class="line"><span class="keyword">library</span>(TxDb.Mmusculus.UCSC.mm10.knownGene) </span><br><span class="line"><span class="keyword">library</span>(TxDb.Hsapiens.UCSC.hg38.knownGene) </span><br><span class="line"><span class="keyword">library</span>(ChIPpeakAnno) </span><br><span class="line"><span class="keyword">library</span>(ChIPseeker)</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-下载sra并且转换为fastq文件"><a href="#3-下载sra并且转换为fastq文件" class="headerlink" title="3.下载sra并且转换为fastq文件"></a>3.下载sra并且转换为fastq文件</h2><p>3.1 下载sra并且转换为fastq文件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">prefetch=/home/jianmingzeng/biosoft/sratoolkit/sratoolkit.2.8.2-1-centos_linux64/bin/prefetch</span><br><span class="line">source activate chipseq</span><br><span class="line">prefetch=prefetch</span><br><span class="line"><span class="meta">#</span><span class="bash"> cat srr.list |<span class="keyword">while</span> <span class="built_in">read</span> id;<span class="keyword">do</span> (nohup <span class="variable">$prefetch</span> <span class="variable">$id</span> -X 100G  &amp; );<span class="keyword">done</span></span></span><br><span class="line"> mkdir -p  ~/project/epi/</span><br><span class="line"> cd ~/project/epi/</span><br><span class="line"> mkdir &#123;sra,raw,clean,align,peaks,motif,qc&#125;</span><br><span class="line"> cd sra </span><br><span class="line"><span class="meta"> #</span><span class="bash"><span class="comment"># vim 或者cat命令创建 srr.list 文件。 </span></span></span><br><span class="line">cat srr.list |while read id;do ( nohup $prefetch $id &amp; );done</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 默认下载目录：~/ncbi/public/sra/ </span></span></span><br><span class="line">ls -lh ~/ncbi/public/sra/</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 下载耗时，自行解决，学员使用现成数据：/public/project/epi/Chipseq-OS25_Esc/OS25_Esc/sra</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 假如提前下载好了数据。</span></span></span><br><span class="line"> cd ~/project/epi/</span><br><span class="line">ln -s /public/project/epi/Chipseq-OS25_Esc/OS25_Esc/sra sra</span><br></pre></td></tr></table></figure></p>
+<p>3.2 制作配置文件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 直接用excel制作config文件，或者写代码</span></span></span><br><span class="line">cut -f 4,7 sra.table |cut -d":" -f 2 |sed 's/ChIPSeq//g' | sed 's/MockIP//g'|sed  's/^ //' |tr ' ' '_' |perl -alne '&#123;$h&#123;$F[0]&#125;++ if exists $h&#123;$F[0]&#125;; $h&#123;$F[0]&#125;=1 unless exists $h&#123;$F[0]&#125;;print "$F[0]$h&#123;$F[0]&#125;\t$F[1]"&#125;' &gt; config</span><br></pre></td></tr></table></figure></p>
+<p>3.3 得到内容如下<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">R<span class="symbol">NAPII_S5</span>P_<span class="number">1</span>    SRR<span class="number">391032</span></span><br><span class="line">R<span class="symbol">NAPII_S5</span>P_<span class="number">2</span>    SRR<span class="number">391033</span></span><br><span class="line">R<span class="symbol">NAPII_S2</span>P_<span class="number">1</span>    SRR<span class="number">391034</span></span><br><span class="line">R<span class="symbol">NAPII_S7</span>P_<span class="number">1</span>    SRR<span class="number">391035</span></span><br><span class="line">R<span class="symbol">NAPII_8</span>W<span class="name">G16</span>_<span class="number">1</span>    SRR<span class="number">391036</span></span><br><span class="line">R<span class="symbol">NAPII_8</span>W<span class="name">G16</span>_<span class="number">2</span>    SRR<span class="number">391037</span></span><br><span class="line">R<span class="symbol">NAPII_S2</span>P_<span class="number">2</span>    SRR<span class="number">391038</span></span><br><span class="line">R<span class="symbol">NAPII_S2</span>P_<span class="number">3</span>    SRR<span class="number">391039</span></span><br><span class="line">R<span class="symbol">NAPII_S7</span>P_<span class="number">2</span>    SRR<span class="number">391040</span></span><br><span class="line">H<span class="number">2</span>Aub<span class="number">1</span>_<span class="number">1</span>    SRR<span class="number">391041</span></span><br><span class="line">H<span class="number">2</span>Aub<span class="number">1</span>_<span class="number">2</span>    SRR<span class="number">391042</span></span><br><span class="line">H<span class="number">3</span>K<span class="number">36</span>me<span class="number">3</span>_<span class="number">1</span>    SRR<span class="number">391043</span></span><br><span class="line">H<span class="number">3</span>K<span class="number">36</span>me<span class="number">3</span>_<span class="number">2</span>    SRR<span class="number">391044</span></span><br><span class="line">Co<span class="symbol">ntrol_1</span>    SRR<span class="number">391045</span></span><br><span class="line">Co<span class="symbol">ntrol_2</span>    SRR<span class="number">391046</span></span><br><span class="line">Ri<span class="symbol">ng1</span>B_<span class="number">1</span>    SRR<span class="number">391047</span></span><br><span class="line">Ri<span class="symbol">ng1</span>B_<span class="number">2</span>    SRR<span class="number">391048</span></span><br><span class="line">Ri<span class="symbol">ng1</span>B_<span class="number">3</span>    SRR<span class="number">391049</span></span><br><span class="line">R<span class="symbol">NAPII_S5</span>PRepeat_<span class="number">1</span>    SRR<span class="number">391050</span></span><br></pre></td></tr></table></figure></p>
+<p>3.4 批量sra转fq文件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 下面需要用循环</span></span></span><br><span class="line">cd ~/project/epi/</span><br><span class="line">source activate chipseq</span><br><span class="line">dump='/home/jianmingzeng/biosoft/sratoolkit/sratoolkit.2.8.2-1-centos_linux64/bin/fastq-dump'</span><br><span class="line">dump=fastq-dump</span><br><span class="line">analysis_dir=raw</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 下面用到的 config 文件，就是上面自行制作的。</span></span></span><br><span class="line">cat config|while read id;</span><br><span class="line">do echo $id</span><br><span class="line">arr=($id)</span><br><span class="line">srr=$&#123;arr[1]&#125;</span><br><span class="line">sample=$&#123;arr[0]&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 单端测序数据的sra转fasq</span></span><br><span class="line">nohup $dump -A  $sample -O $analysis_dir  --gzip --split-3  sra/$srr.sra &amp; </span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
+<p>3.5 下载的sra文件如下<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">-rw-rw-r-- <span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">474</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">29</span> SRR391032.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">473</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">30</span> SRR391033.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">406</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">30</span> SRR391034.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">346</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">31</span> SRR391035.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">324</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">31</span> SRR391036.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">393</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">32</span> SRR391037.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">191</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">32</span> SRR391038.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">304</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">34</span> SRR391039.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">234</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">34</span> SRR391040.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">322</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">35</span> SRR391041.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">548</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">36</span> SRR391042.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">597</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">37</span> SRR391043.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">537</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">37</span> SRR391044.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">255</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">38</span> SRR391045.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">342</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">38</span> SRR391046.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">159</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">39</span> SRR391047.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">164</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">39</span> SRR391048.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">438</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">40</span> SRR391049.<span class="keyword">sra</span></span><br><span class="line"><span class="keyword">-rw-rw-r-- </span><span class="number">1</span> <span class="keyword">jianmingzeng </span><span class="keyword">jianmingzeng </span><span class="number">165</span>M Mar <span class="number">23</span> <span class="number">14</span>:<span class="number">40</span> SRR391050.<span class="keyword">sra</span></span><br></pre></td></tr></table></figure></p>
+<p>3.6 fastq测序数据<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">427<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:25</span> <span class="selector-tag">Control_1</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br><span class="line">527<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:26</span> <span class="selector-tag">Control_2</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br><span class="line">507<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:26</span> <span class="selector-tag">H2Aub1_1</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br><span class="line">843<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:28</span> <span class="selector-tag">H2Aub1_2</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br><span class="line">881<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:28</span> <span class="selector-tag">H3K36me3_1</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br><span class="line">858<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:29</span> <span class="selector-tag">RNAPII_S2P_1</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br><span class="line">326<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:25</span> <span class="selector-tag">RNAPII_S2P_2</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br><span class="line">489<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:26</span> <span class="selector-tag">RNAPII_S2P_3</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br><span class="line">283<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:25</span> <span class="selector-tag">RNAPII_S5PRepeat_1</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br><span class="line">745<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:27</span> <span class="selector-tag">RNAPII_S5P_2</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br><span class="line">533<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:26</span> <span class="selector-tag">RNAPII_S7P_1</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br><span class="line">393<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:25</span> <span class="selector-tag">RNAPII_S7P_2</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br><span class="line">266<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:25</span> <span class="selector-tag">Ring1B_1</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br><span class="line">274<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:25</span> <span class="selector-tag">Ring1B_2</span><span class="selector-class">.fastq</span><span class="selector-class">.gz</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="4-trim-galore软件进行质控"><a href="#4-trim-galore软件进行质控" class="headerlink" title="4. trim_galore软件进行质控"></a>4. trim_galore软件进行质控</h2><p>4.1 数据质量控制<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/project/epi/clean </span><br><span class="line">analysis_dir=/home/jmzeng/project/epi</span><br><span class="line">bin_trim_galore=<span class="string">"trim_galore"</span></span><br><span class="line">ls ../raw/*gz | <span class="keyword">while</span> <span class="built_in">read</span> fq1;</span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line">nohup <span class="variable">$bin_trim_galore</span> -q 25 --phred33 --length 25 -e 0.1 --stringency 4 -o <span class="variable">$analysis_dir</span>/clean  <span class="variable">$fq1</span> &amp; </span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure></p>
+<p>4.2 过滤后的文件如下<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">356<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:46</span> <span class="selector-tag">Control_1_trimmed</span><span class="selector-class">.fq</span><span class="selector-class">.gz</span></span><br><span class="line">438<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:46</span> <span class="selector-tag">Control_2_trimmed</span><span class="selector-class">.fq</span><span class="selector-class">.gz</span></span><br><span class="line">456<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:46</span> <span class="selector-tag">H2Aub1_1_trimmed</span><span class="selector-class">.fq</span><span class="selector-class">.gz</span></span><br><span class="line">693<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:47</span> <span class="selector-tag">H2Aub1_2_trimmed</span><span class="selector-class">.fq</span><span class="selector-class">.gz</span></span><br><span class="line">773<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:47</span> <span class="selector-tag">H3K36me3_1_trimmed</span><span class="selector-class">.fq</span><span class="selector-class">.gz</span></span><br><span class="line">824<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:48</span> <span class="selector-tag">RNAPII_S2P_1_trimmed</span><span class="selector-class">.fq</span><span class="selector-class">.gz</span></span><br><span class="line">282<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:45</span> <span class="selector-tag">RNAPII_S2P_2_trimmed</span><span class="selector-class">.fq</span><span class="selector-class">.gz</span></span><br><span class="line">458<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:46</span> <span class="selector-tag">RNAPII_S2P_3_trimmed</span><span class="selector-class">.fq</span><span class="selector-class">.gz</span></span><br><span class="line">210<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:45</span> <span class="selector-tag">RNAPII_S5PRepeat_1_trimmed</span><span class="selector-class">.fq</span><span class="selector-class">.gz</span></span><br><span class="line">626<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:47</span> <span class="selector-tag">RNAPII_S5P_2_trimmed</span><span class="selector-class">.fq</span><span class="selector-class">.gz</span></span><br><span class="line">405<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:46</span> <span class="selector-tag">RNAPII_S7P_1_trimmed</span><span class="selector-class">.fq</span><span class="selector-class">.gz</span></span><br><span class="line">306<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:46</span> <span class="selector-tag">RNAPII_S7P_2_trimmed</span><span class="selector-class">.fq</span><span class="selector-class">.gz</span></span><br><span class="line">218<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:45</span> <span class="selector-tag">Ring1B_1_trimmed</span><span class="selector-class">.fq</span><span class="selector-class">.gz</span></span><br><span class="line">218<span class="selector-tag">M</span> <span class="selector-tag">Jul</span> 28 15<span class="selector-pseudo">:45</span> <span class="selector-tag">Ring1B_2_trimmed</span><span class="selector-class">.fq</span><span class="selector-class">.gz</span></span><br></pre></td></tr></table></figure></p>
+<p>4.2 Fastaqc<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/project/epi/qc</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 相对目录需要理解</span></span></span><br><span class="line">ls ../raw/*gz|xargs fastqc -t 10 -o  ./</span><br><span class="line">ls ../clean/*gz|xargs fastqc -t 10 -o  ./</span><br></pre></td></tr></table></figure></p>
+<h2 id="5-bowtie2进行比对"><a href="#5-bowtie2进行比对" class="headerlink" title="5. bowtie2进行比对"></a>5. bowtie2进行比对</h2><p>5.1 直接用bowtie2进行比对和统计比对率, 需要提前下载参考基因组然后使用命令构建索引，或者直接就下载索引文件：</p>
+<p>下载小鼠参考基因组的索引和注释文件, 这里用常用的mm10<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 索引大小为3.2GB， 不建议自己下载基因组构建，可以直接下载索引文件，代码如下：</span></span><br><span class="line">mkdir referece &amp;&amp; cd reference</span><br><span class="line">wget -<span class="number">4</span> -q ftp:<span class="regexp">//</span>ftp.ccb.jhu.edu<span class="regexp">/pub/</span>data<span class="regexp">/bowtie2_indexes/mm</span>10.zip</span><br><span class="line">unzip mm10.zip</span><br></pre></td></tr></table></figure></p>
+<p>5.2 单端测序数据的比对代码如下：</p>
+<pre><code>cd ~/project/epi/align
+## 相对目录需要理解
+bin_bowtie2=&apos;/home/jianmingzeng/biosoft/bowtie/bowtie2-2.2.9/bowtie2&apos;
+bin_bowtie2=bowtie2
+bowtie2_index=&quot;/home/jianmingzeng/reference/index/bowtie/mm10&quot;
+bowtie2_index=/public/reference/index/bowtie/mm10
+## 一定要搞清楚自己的bowtie2软件安装在哪里，以及自己的索引文件在什么地方！！！
+ls ../clean/*gz |while read id;
+do 
+file=$(basename $id )
+sample=${file%%.*}
+echo $file $sample
+## 比对过程3分钟一个样本
+$bin_bowtie2  -p 5  -x  $bowtie2_index -U  $id | samtools sort  -O bam  -@ 5 -o - &gt; ${sample}.bam 
+done
+</code></pre><p>5.3 </p>
+<p>hello <a href="https://benbenmiao.github.io/2019/08/15/ChIP_Seq/">https://benbenmiao.github.io/2019/08/15/ChIP_Seq/</a> bye</p>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+      <div>
+        
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>BenbenMiao</li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    
+    <a href="https://benbenmiao.github.io/2019/08/15/ChIP_Seq/" title="AChIP_Seq">https://benbenmiao.github.io/2019/08/15/ChIP_Seq/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Seq/" rel="tag"><i class="fa fa-tag"></i> Seq</a>
+          
+            <a href="/tags/ChIP/" rel="tag"><i class="fa fa-tag"></i> ChIP</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+          <div class="wp_rating">
+            <div id="wpac-rating"></div>
+          </div>
+        
+
+        
+
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/15/ATAC_Seq/" rel="next" title="ATAC_Seq">
+                <i class="fa fa-chevron-left"></i> ATAC_Seq
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="BenbenMiao">
+            
+              <p class="site-author-name" itemprop="name">BenbenMiao</p>
+              <p class="site-description motion-element" itemprop="description">A biology information technology blog.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/BenbenMiao" title="GitHub &rarr; https://github.com/BenbenMiao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/m-benben@outlook.com" title="Email &rarr; m-benben@outlook.com"><i class="fa fa-fw fa-envelope"></i>Email</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://benbenmiao.github.io/mdeditor/" title="MarkdownEditor &rarr; https://benbenmiao.github.io/mdeditor/"><i class="fa fa-fw fa-pencil-square-o"></i>MarkdownEditor</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://gitlab.com/benbenmiao" title="GitLab &rarr; https://gitlab.com/benbenmiao" rel="noopener" target="_blank"><i class="fa fa-fw fa-gitlab"></i>GitLab</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://gitee.com/BenbenMiao" title="Gitee &rarr; https://gitee.com/BenbenMiao" rel="noopener" target="_blank"><i class="fa fa-fw fa-code"></i>Gitee</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="http://imbenben.icoc.me/" title="WebSite &rarr; http://imbenben.icoc.me/" rel="noopener" target="_blank"><i class="fa fa-fw fa-ravelry"></i>WebSite</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://bitbucket.org/benbenmiao/" title="Bitbucket &rarr; https://bitbucket.org/benbenmiao/" rel="noopener" target="_blank"><i class="fa fa-fw fa-wpexplorer"></i>Bitbucket</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://benbenmiao.github.io/YueR.com/" title="YueR &rarr; https://benbenmiao.github.io/YueR.com/"><i class="fa fa-fw fa-snowflake-o"></i>YueR</a>
+                </span>
+              
+            </div>
+          
+
+          
+             <div class="cc-license motion-element" itemprop="license">
+              
+                
+              
+              
+              
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+             </div>
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ChIP-Seq分析"><span class="nav-number">1.</span> <span class="nav-text">ChIP_Seq分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-序言"><span class="nav-number">1.1.</span> <span class="nav-text">1. 序言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-基本准备"><span class="nav-number">1.2.</span> <span class="nav-text">2.基本准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-下载sra并且转换为fastq文件"><span class="nav-number">1.3.</span> <span class="nav-text">3.下载sra并且转换为fastq文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-trim-galore软件进行质控"><span class="nav-number">1.4.</span> <span class="nav-text">4. trim_galore软件进行质控</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-bowtie2进行比对"><span class="nav-number">1.5.</span> <span class="nav-text">5. bowtie2进行比对</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-BenbenMiao"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BenbenMiao</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Symbols count total: </span>
+    
+    <span title="Symbols count total">26k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    
+    <span title="Reading time total">23 mins.</span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,0" opacity="1" zindex="-1" count="120" src="/lib/canvas-nest/canvas-nest-nomobile.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/reading_progress/reading_progress.js"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+  
+
+  
+    <script>
+      var disqus_config = function () {
+        this.page.url = "https://benbenmiao.github.io/2019/08/15/ChIP_Seq/";
+        this.page.identifier = "2019/08/15/ChIP_Seq/";
+        this.page.title = 'AChIP_Seq';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        $(function () {
+          var offsetTop = $('#comments').offset().top - $(window).height();
+          if (offsetTop <= 0) {
+            // load directly when there's no a scrollbar
+            loadComments();
+          } else {
+            $(window).on('scroll.disqus_scroll', function () {
+              // offsetTop may changes because of manually resizing browser window or lazy loading images.
+              var offsetTop = $('#comments').offset().top - $(window).height();
+              var scrollTop = $(window).scrollTop();
+
+              // pre-load comments a bit? (margin or anything else)
+              if (offsetTop - scrollTop < 60) {
+                $(window).off('.disqus_scroll');
+                loadComments();
+              }
+            });
+          }
+        });
+      
+    </script>
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 'HXXn7zaM1LjdPRj99y0xhCXk-gzGzoHsz',
+      appKey: '9yRLrfiqskwrIoARzGJobCeC',
+      placeholder: 'Just go go',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: true
+    });
+  </script>
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+      }
+      else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+  <script>
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id: 15808,
+      el: 'wpac-rating',
+      color: 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <script src="/lib/bookmark/bookmark.min.js?v=1.0"></script>
+  <script>
+  
+    bookmark.scrollToMark('auto', "#more");
+  
+  </script>
+
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function () {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>

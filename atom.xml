@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>BioInfoTech</title>
+  
+  <subtitle>BenbenMiao</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://benbenmiao.github.io/"/>
+  <updated>2019-07-17T02:08:24.000Z</updated>
+  <id>https://benbenmiao.github.io/</id>
+  
+  <author>
+    <name>BenbenMiao</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AChIP_Seq</title>
+    <link href="https://benbenmiao.github.io/2019/08/15/ChIP_Seq/"/>
+    <id>https://benbenmiao.github.io/2019/08/15/ChIP_Seq/</id>
+    <published>2019-08-15T07:00:00.263Z</published>
+    <updated>2019-07-17T02:08:24.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;ChIP-Seq分析&quot;&gt;&lt;a href=&quot;#ChIP-Seq分析&quot; class=&quot;headerlink&quot; title=&quot;ChIP_Seq分析&quot;&gt;&lt;/a&gt;ChIP_Seq分析&lt;/h1&gt;&lt;h2 id=&quot;1-序言&quot;&gt;&lt;a href=&quot;#1-序言&quot; class=&quot;headerlink&quot; title=&quot;1. 序言&quot;&gt;&lt;/a&gt;1. 序言&lt;/h2&gt;&lt;figure class=&quot;highlight livecodeserver&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;1.&lt;/span&gt; 文章是 : Brookes, E. et al. Polycomb associates genome-wide &lt;span class=&quot;keyword&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;a&lt;/span&gt; specific RNA polymerase II variant, &lt;span class=&quot;keyword&quot;&gt;and&lt;/span&gt; regulates metabolic genes &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; ESCs. Cell Stem Cell &lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;157&lt;/span&gt;–&lt;span class=&quot;number&quot;&gt;170&lt;/span&gt; (&lt;span class=&quot;number&quot;&gt;2012&lt;/span&gt;).&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;2.&lt;/span&gt; 数据是： Polycomb associates genome-wide &lt;span class=&quot;keyword&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;a&lt;/span&gt; specific RNA polymerase II variant, &lt;span class=&quot;keyword&quot;&gt;and&lt;/span&gt; regulates metabolic genes &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; ES cells (ChIP-Seq) &lt;span class=&quot;keyword&quot;&gt;https&lt;/span&gt;://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE34518 总共是&lt;span class=&quot;number&quot;&gt;9&lt;/span&gt;个样本,很多样本都分开在多个lane测序的，所以每个样本其实是有多个sra文件，多个fastq文件。&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;3.&lt;/span&gt; SRA数据库可以下载 ：&lt;span class=&quot;keyword&quot;&gt;https&lt;/span&gt;://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP009883 包括：Examination &lt;span class=&quot;keyword&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;4&lt;/span&gt; different RNAPII modifications (S5p, S7p, &lt;span class=&quot;number&quot;&gt;8&lt;/span&gt;WG16, S2p), &lt;span class=&quot;keyword&quot;&gt;and&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;the&lt;/span&gt; histone modifications H2Aub1 &lt;span class=&quot;keyword&quot;&gt;and&lt;/span&gt; H3K36me3 &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; mouse ES cells 这里需要警觉了，参考基因组应该是鼠。&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;4.&lt;/span&gt; 作者并没有给peaks文件，要想利用这个数据，只能自己重新处理，这就是为什么需要学会ChIP-seq数据处理的原因。不过作者给了bw文件，所以可以勉强跟自己的结果相互验证。&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;5.&lt;/span&gt; Illumina Genome Analyzer II 测序仪，有点过时了，测序策略是 se50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;6.&lt;/span&gt; 文章找到数据的ID： &lt;span class=&quot;keyword&quot;&gt;https&lt;/span&gt;://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRP009883 把下面的内容保存到文件，命名为 srr.list 就可以使用prefetch这个函数来下载。&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="Seq" scheme="https://benbenmiao.github.io/tags/Seq/"/>
+    
+      <category term="ChIP" scheme="https://benbenmiao.github.io/tags/ChIP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ATAC_Seq</title>
+    <link href="https://benbenmiao.github.io/2019/08/15/ATAC_Seq/"/>
+    <id>https://benbenmiao.github.io/2019/08/15/ATAC_Seq/</id>
+    <published>2019-08-15T07:00:00.263Z</published>
+    <updated>2019-07-17T02:08:24.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;ATAC-seq数据实战&quot;&gt;&lt;a href=&quot;#ATAC-seq数据实战&quot; class=&quot;headerlink&quot; title=&quot;ATAC-seq数据实战&quot;&gt;&lt;/a&gt;ATAC-seq数据实战&lt;/h1&gt;&lt;figure class=&quot;highlight groovy&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;文章:The landscape of accessible chromatin &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; mammalian preimplantation embryos. Nature &lt;span class=&quot;number&quot;&gt;2016&lt;/span&gt; Jun &lt;span class=&quot;number&quot;&gt;30&lt;/span&gt;;&lt;span class=&quot;number&quot;&gt;534&lt;/span&gt;(&lt;span class=&quot;number&quot;&gt;7609&lt;/span&gt;):&lt;span class=&quot;number&quot;&gt;652&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;-7.&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;PMID:&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;27309802&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;GEO：&lt;span class=&quot;string&quot;&gt;https:&lt;/span&gt;&lt;span class=&quot;comment&quot;&gt;//www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE66581&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;SRA数据库原始测序数据ID： &lt;span class=&quot;string&quot;&gt;https:&lt;/span&gt;&lt;span class=&quot;comment&quot;&gt;//www.ncbi.nlm.nih.gov/sra?term=SRP055881 把下面的内容保存到文件，命名为 srr.list 就可以使用prefetch这个函数来下载。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;1-下载作者的数据&quot;&gt;&lt;a href=&quot;#1-下载作者的数据&quot; class=&quot;headerlink&quot; title=&quot;1.下载作者的数据&quot;&gt;&lt;/a&gt;1.下载作者的数据&lt;/h2&gt;&lt;p&gt;1.1 file:config.sra&lt;br&gt;&lt;figure class=&quot;highlight lsl&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;-cell&lt;span class=&quot;number&quot;&gt;-1&lt;/span&gt; SRR2927015&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;-cell&lt;span class=&quot;number&quot;&gt;-2&lt;/span&gt; SRR2927016&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;-cell&lt;span class=&quot;number&quot;&gt;-5&lt;/span&gt; SRR3545580&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;-cell&lt;span class=&quot;number&quot;&gt;-4&lt;/span&gt; SRR2927018&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Seq" scheme="https://benbenmiao.github.io/categories/Seq/"/>
+    
+      <category term="Gene" scheme="https://benbenmiao.github.io/categories/Seq/Gene/"/>
+    
+    
+      <category term="Seq" scheme="https://benbenmiao.github.io/tags/Seq/"/>
+    
+      <category term="ATAC" scheme="https://benbenmiao.github.io/tags/ATAC/"/>
+    
+  </entry>
+  
+</feed>
